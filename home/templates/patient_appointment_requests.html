@@ -1,0 +1,39 @@
+{% extends 'master.html' %}
+{% block title %}
+    Patient Appointment Requests 
+{% endblock %}
+{% block content %}
+  <h1>Appointment Requests History</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Doctor</th>
+        <th>Date and Time</th>
+        <th>Reason</th>
+        <th>Prescription</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for appointment in appointments %}
+        <tr>
+          <td>{{ appointment.doctor.get_full_name }}</td>
+          <td>{{ appointment.date_time }}</td>
+          <td>{{ appointment.reason }}</td>
+          <td>
+            {% if appointment.prescription %}
+              <a href="{{ appointment.prescription.url }}" target="_blank">Download Prescription</a>
+            {% else %}
+              No prescription available
+            {% endif %}
+          </td>
+          <td>{{ appointment.status }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block footer %}
+{{ block.super }}
+{% endblock %}
