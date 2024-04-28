@@ -87,6 +87,8 @@ class AnonymousUser(models.Model):
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+
 class Appointments(models.Model):
     date_time = models.DateTimeField()
     reason = models.TextField()
@@ -105,38 +107,12 @@ class AnonymousAppointments(models.Model):
     reason = models.TextField()
     prescription = models.FileField(upload_to='prescriptions/', blank=True, null=True)
 
-
-class AppointmentRequest(models.Model):
-    APPOINTMENT_CHOICES = [
-        ('morning', 'Morning'),
-        ('afternoon', 'Afternoon'),
-        ('evening', 'Evening'),
+class AppointmentStatus(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('denied', 'Denied'),
     ]
-    PATIENT_TYPE_CHOICES = [
-        ('regular', 'AnonymousUser'),
-        ('patient', 'Patient'),
-    ]
-
-    patient_type = models.CharField(max_length=10, choices=PATIENT_TYPE_CHOICES)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    appointment_time = models.CharField(max_length=10, choices=APPOINTMENT_CHOICES)
-    date = models.DateField()
-    reason = models.TextField()
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, default='pending')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def get_patient_name(self):
-        User = get_user_model()  # Get the User model dynamically
-
-        if self.patient_type == 'regular':
-            return f"{self.first_name} {self.last_name}"
-        elif self.patient_type == 'patient':
-            patient = Patient.objects.get(user__id=self.patient.user.id)
-            return f"{patient.first_name} {patient.last_name}"
-        else:
-            return "Unknown Patient"
-
-
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    appointment = models.OneToOneField(Appointments, on_delete=models.CASCADE, related_name='status')
 

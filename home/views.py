@@ -9,7 +9,7 @@ from .forms import PatientSignUpForm, DoctorSignUpForm, AppointmentsRequestForm,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Appointments, Doctor, Patient, CustomUser, AnonymousUser, AppointmentRequest, AnonymousAppointments, Prescription, Appointments
+from .models import Appointments, Doctor, Patient, CustomUser, AnonymousUser, AnonymousAppointments, Prescription, Appointments, AppointmentStatus
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
 
@@ -30,7 +30,7 @@ def doctors_by_specialization(request, specialization_id):
 def accept_appointment(request, appointment_id):
     doctor = request.user.doctor
     appointment = get_object_or_404(Appointments, id=appointment_id, doctor=doctor)
-    appointment.status = 'accepted'
+    appointment.AppointmentStatus = 'accepted'
     appointment.save()
     return redirect('doctor_dashboard')
 
@@ -59,23 +59,19 @@ def deny_anonymous_appointment(request, appointment_id):
     return redirect('doctor_dashboard')
 
 
-
-
 @login_required
 def patient_appointments_requests(request):
     # Get the logged-in patient object
     patient = get_object_or_404(Patient, user=request.user)
 
-    # Retrieve all appointments for the patient
+    # Retrieve all appointment requests for the patient
     appointments = Appointments.objects.filter(patient=patient)
 
     context = {
         'appointments': appointments,
     }
-    return render(request, 'patient_appointment_request.html', context)
 
-
-
+    return render(request, 'patient_appointment_requests.html', context)
 
 @login_required
 def doctor_appointments(request):
@@ -317,34 +313,6 @@ def patient_dashboard(request):
 
 def doctor_dashboard(request):
     return render(request, 'doctor_dashboard.html')
-"""
-def decline_appointment_request_view(request, appointment_request_id):
-    appointment_request = get_object_or_404(AppointmentRequest, id=appointment_request_id)
-    appointment_request.accepted = False
-    appointment_request.save()
-    return redirect('doctor_dashboard')
 
-def accept_appointment_request_view(request, appointment_request_id):
-    appointment_request = get_object_or_404(AppointmentRequest, id=appointment_request_id)
-    appointment_request.accepted = True
-    appointment_request.save()
-    return redirect('doctor_dashboard')
-
-def regular_user_appointment_request(request):
-    if request.method == 'POST':
-        form = AppointmentRequestForm(request.POST)
-        if form.is_valid():
-            appointment_request = form.save(commit=False)
-            appointment_request.patient_type = 'regular'
-            appointment_request.save()
-            messages.success(request, 'Your appointment request has been submitted.')
-            return redirect('home')
-    else:
-        form = AppointmentRequestForm()
-
-    context = {
-        'form': form,
-    }
-    return render(request, 'appointment.html', context)"""
 
 

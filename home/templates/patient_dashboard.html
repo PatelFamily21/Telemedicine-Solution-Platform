@@ -215,7 +215,7 @@ form#appointmentForm button[type="submit"]:hover {
                 depending on the doctor's instructions. If you have any questions or need further assistance, 
                 please don't hesitate to contact our support team</p>
                 <form action="{% url 'patient_appointments_requests' %}" method="get">
-                    <button type="submit">Personal Details Update</button>
+                    <button type="submit">Prescriptions</button>
                 </form>
         </div>
         <div class="main-content" id="call-section">
@@ -322,4 +322,7 @@ document.getElementById('id_specialization').addEventListener('change', function
 
 {% endif %}
 
+{% endblock %}
+{% block footer %}
+{{ block.super }}
 {% endblock %}

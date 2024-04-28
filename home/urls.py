@@ -20,7 +20,8 @@ urlpatterns = [
     path('doctor/appointments/', views.doctor_appointments, name='doctor_appointments'),
     path('doctors_by_specialization/<int:specialization_id>/', views.doctors_by_specialization, name='doctors_by_specialization'),
     path('doctor/dashboard/', views.doctor_dashboard, name='doctor_dashboard'),
-    path('patient/requests/', views.patient_appointments_requests, name='patient_appointment_requests'),
+    path('patient/requests/', views.patient_appointments_requests, name='patient_appointments_requests'),
+    
 
     #path('doctor/accept_appointment_request/<int:appointment_request_id>/', views.accept_appointment_request_view, name='accept_appointment_view'),
     #path('doctor/decline_appointment_request/<int:appointment_request_id>/', views.decline_appointment_request_view, name='decline_appointment_view'),

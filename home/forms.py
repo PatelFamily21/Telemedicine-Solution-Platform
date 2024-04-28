@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 #from django.contrib.auth.models import User
 from django import forms
-from .models import CustomUser, Patient, Doctor, Appointments, ContactMessage, Specialization, AnonymousUser, AnonymousAppointments, AppointmentRequest
+from .models import CustomUser, Patient, Doctor, Appointments, ContactMessage, Specialization, AnonymousUser, AnonymousAppointments
 from datetime import *
 from django.core.exceptions import ValidationError
 
@@ -236,31 +236,4 @@ class UpdateDoctorForm(forms.ModelForm):
         model = Doctor
         fields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth', 'specialization']
 
-from django import forms
-from .models import AppointmentRequest, Doctor, Specialization
 
-class AppointmentRequestForm(forms.Form):
-    patient_type = forms.ChoiceField(choices=AppointmentRequest.PATIENT_TYPE_CHOICES, widget=forms.RadioSelect,
-        initial='regular',
-        label='Patient Type'
-    )
-    first_name = forms.CharField(label="", max_length=50,required=True,widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
-    last_name = forms.CharField(label="",max_length=50,required=True,widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
-    appointment_time = forms.ChoiceField(choices=AppointmentRequest.APPOINTMENT_CHOICES,widget=forms.Select(attrs={'class': 'form-control'}),label='Appointment Time')
-    date = forms.DateField(label="",required=True,input_formats=['%Y-%m-%d'],widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Date'}))
-    reason = forms.CharField(label="",required=True,widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Reason for Appointment'}))
-    specialization = forms.ModelChoiceField(queryset=Specialization.objects.all(),empty_label="Select Specialization",label="Specialization",widget=forms.Select(attrs={'class': 'form-control'}))
-    doctor = forms.ModelChoiceField(queryset=Doctor.objects.none(),empty_label="Select Doctor",label="Doctor",widget=forms.Select(attrs={'class': 'form-control'}))
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['doctor'].queryset = Doctor.objects.none()
-
-    def clean(self):
-        cleaned_data = super().clean()
-        specialization = cleaned_data.get('specialization')
-        if specialization:
-            self.fields['doctor'].queryset = Doctor.objects.filter(specialization=specialization)
-        else:
-            self.fields['doctor'].queryset = Doctor.objects.none()
-        return cleaned_data
