@@ -6,7 +6,7 @@ admin.site.site_header = 'Telemedicine Solution Platform Administration'
 
 # Custom admin class for CustomUser model
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'user_type', 'date_of_birth', 'phone_number' )
+    list_display = ('username', 'first_name', 'last_name','email', 'user_type', 'date_of_birth', 'phone_number' )
     list_filter = ('user_type',)
     search_fields = ('username', 'email')
 
