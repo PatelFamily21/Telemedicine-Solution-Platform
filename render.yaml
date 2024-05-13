@@ -1,0 +1,11 @@
+# Exported from Render on 2024-05-13T09:50:41Z
+services:
+- type: web
+  name: Telemedicine-Solution-Platform
+  runtime: python
+  repo: https://github.com/PatelFamily21/Telemedicine-Solution-Platform
+  plan: free
+  region: oregon
+  buildCommand: ./build.sh
+  startCommand: gunicorn telemedicine.wsgi
+version: "1"
