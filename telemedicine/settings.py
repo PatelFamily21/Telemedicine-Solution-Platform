@@ -9,12 +9,19 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/ """
 
+# Import dj-database-url at the beginning of the file.
+import dj_database_url
+
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import environ
+env = environ.Env()
+
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -23,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o+$$2++btf#s+uq1jfi4o!vw4^bm9(c0mjkd4nioag1pu-%)!r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -79,14 +86,8 @@ AUTH_USER_MODEL = 'home.CustomUser'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tms',
-        'USER': 'FamilyX',
-        'PASSWORD': 'Patel@FamilyX7',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+    "default": dj_database_url.parse(env("DATABASE_URL"))
+    
 }
 
 
