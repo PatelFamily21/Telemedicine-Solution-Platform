@@ -86,7 +86,14 @@ AUTH_USER_MODEL = 'home.CustomUser'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.parse(env("DATABASE_URL"))
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tms',
+        'USER': 'Patel',
+        'PASSWORD': 'Patel@FamilyX7',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
     
 }
 
