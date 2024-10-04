@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/ """
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-o+$$2++btf#s+uq1jfi4o!vw4^bm9(c0mjkd4nioag1pu-%)!r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -78,17 +79,14 @@ AUTH_USER_MODEL = 'home.CustomUser'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Replace the SQLite DATABASES configuration with PostgreSQL:
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tms',
-        'USER': 'FamilyX',
-        'PASSWORD': 'Patel@FamilyX7',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgresql://tms_xiit_user:FCbHiFh0YbXmKNXupMd5pZopwO22DUyn@dpg-crvucv3tq21c738r1on0-a.oregon-postgres.render.com/tms_xiit',
+        conn_max_age=600
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
