@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 databases:
   - name: telemedicine
     plan: free
@@ -20,3 +21,16 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+=======
+# Exported from Render on 2024-05-13T09:50:41Z
+services:
+- type: web
+  name: Telemedicine-Solution-Platform
+  runtime: python
+  repo: https://github.com/PatelFamily21/Telemedicine-Solution-Platform
+  plan: free
+  region: oregon
+  buildCommand: ./build.sh
+  startCommand: gunicorn telemedicine.wsgi
+version: "1"
+>>>>>>> 8234b92a9757d62e4b5a613772a2fbbf2e939b04
